@@ -26,7 +26,7 @@ jobs:
           }
 
           dependencyResolutionManagement {
-              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
               repositories {
                   google()
                   mavenCentral()
@@ -50,10 +50,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Install Gradle
+      - name: Install Gradle 8.7
         run: |
-          sudo apt update
-          sudo apt install -y gradle
+          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip -O /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          echo "/opt/gradle-8.7/bin" >> $GITHUB_PATH
 
       - name: Build APK
         run: gradle :app:assembleDebug
@@ -62,4 +63,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk      
