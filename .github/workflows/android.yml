@@ -44,6 +44,11 @@ jobs:
           }
           EOF
 
+          cat > gradle.properties <<'EOF'
+          android.useAndroidX=true
+          android.suppressUnsupportedCompileSdk=35
+          EOF
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
